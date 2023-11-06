@@ -1,33 +1,38 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include<assert.h>
 
-int main(void) 
-{
-  int h=0;
-  int m=0;
-  float d=0;
+int main() {
+    int hours, minutes;
+    double angle;
 
-  scanf("%d %d",&h,&m);
-  assert(h>=1&&h<=12&&m>=00&&m<=59);
+    printf("請輸入時間（HH MM）：");
+    scanf("%d %d", &hours, &minutes);
 
-  d=30*h-5.5*m;
-  float d1=0;
+    if (hours < 1 || hours > 12 || minutes < 0 || minutes > 59) {
+        printf("輸入時間不合法。\n");
+        return 1;
+    }
 
-  if(d<0)
-  {
-    d1=d+360;
-  }
-  if(d>180)
-  {
-    d1=360-d;
-  }
-  else
-  {
-    d1=d;
-  }
+    // 計算時針和分針的角度
+    // 每小時時針轉動 30 度，每分鐘時針轉動 0.5 度
+    double hour_angle = (hours % 12) * 30 + (minutes * 0.5);
+    double minute_angle = minutes * 6;
 
-  printf("%.3f",d1);
-  
+    // 計算兩者夾角
+    angle = hour_angle - minute_angle;
+
+    // 將角度限制在0到180度之間
+    if (angle < 0) {
+        angle = -angle;
+    }
+    if (angle > 180) {
+        angle = 360 - angle;
+    }
+
+    // 四捨五入到小數點後3位
+    double multiplier = 1000.0;
+    angle = (int)(angle * multiplier + 0.5) / multiplier;
+
+    printf("時針和分針夾角為：%.3f \n", angle);
+
+    return 0;
 }
-
